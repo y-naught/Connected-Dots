@@ -1,9 +1,9 @@
 Dot[] dots;
-int count= 50;
+int count= 100;
 PVector gravity;
 
 void setup(){
-  fullScreen(P2D);
+  size(1280, 1024, P2D);
   frameRate(24);
   //set the gravity
   gravity = new PVector(0.2, 0.1);
@@ -26,10 +26,11 @@ void draw(){
     }
    dots[i].move();
    dots[i].checkEdges();
-   dots[i].display();
+   //dots[i].display();
   }
-  strokeWeight(1);
+  strokeWeight(8);
   closestPoints(dots, 3);
+  saveFrame("ConnectedPts-######.jpg");
 }
 //prototype function that connects all points to one another (not in use)
 void connectLine(Dot[] pts){
@@ -80,6 +81,7 @@ void closestPoints(Dot[] pts, int numPts){
       }
     
      for(int l = 0; l < list.length; l++){
+       stroke(pts[i].lineColor);
        line(pts[i].location.x, pts[i].location.y, pts[list[l]].location.x, pts[list[l]].location.y);
      }
    }
@@ -89,11 +91,15 @@ class Dot{
  PVector location;
  PVector velocity;
  PVector acceleration;
+ color dotColor;
+ color lineColor;
  
  Dot(){
   location = new PVector(random(0, width), random(0, height));
   velocity = new PVector(random(-10,10), random(-15, 15));
   acceleration = new PVector(0,0);
+  dotColor = color(random(255), random(50), random(255));
+  lineColor = color(random(255), random(50), random(255));
  }
  
  void checkEdges(){
@@ -112,7 +118,7 @@ class Dot{
  }
  
  void display(){
-  stroke(255);
+  stroke(dotColor);
   strokeWeight(15);
   point(location.x, location.y);
  }
